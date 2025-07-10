@@ -20,13 +20,21 @@ export function coordinatePrecisionIsValid(
 
 export function coordinateIsValid(coordinate: unknown[]) {
 	return (
-		coordinate.length === 2 &&
-		typeof coordinate[0] === "number" &&
-		typeof coordinate[1] === "number" &&
-		coordinate[0] !== Infinity &&
-		coordinate[1] !== Infinity &&
-		validLongitude(coordinate[0]) &&
-		validLatitude(coordinate[1])
+		    (coordinate.length === 2 || coordinate.length === 3) &&
+    // Check if first two elements are numbers and not Infinity
+    typeof coordinate[0] === "number" &&
+    typeof coordinate[1] === "number" &&
+    coordinate[0] !== Infinity &&
+    coordinate[1] !== Infinity &&
+    // If altitude exists (3rd element), check if it's a number and not Infinity
+    (coordinate.length === 3 ? (
+      typeof coordinate[2] === "number" &&
+      coordinate[2] !== Infinity
+    ) : true) &&
+    // Validate longitude and latitude ranges
+    validLongitude(coordinate[0]) &&
+    validLatitude(coordinate[1])
+
 	);
 }
 
